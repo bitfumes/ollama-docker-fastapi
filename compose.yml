@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  web:
+    build: fastapi
+    ports:
+      - 8000:8000
+    volumes:
+      - ./fastapi:/app
+    networks:
+      - tutorial-net
+  ollama:
+    build: ollama
+    ports:
+      - 11434:11434
+    volumes:
+      - tutorial-vol:/ollama
+    networks:
+      - tutorial-net
+    entrypoint: ["/usr/bin/bash", "/pull-llama3.sh"]
+
+networks:
+  tutorial-net:
+    driver: bridge
+
+volumes:
+  tutorial-vol:
+    driver: local
